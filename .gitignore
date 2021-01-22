@@ -1,8 +1,10 @@
 Pip*
-Makefile
-sources.mk
-*.c
-!example
+Makefile !example
+sources.mk !example
+*.c !example
+
 *.egg-info
 .pypirc
 build
+__pycache__
+dist
