@@ -94,7 +94,6 @@ def populate_sources():
 
 	build_source_file(source_file)
 	max_lenght = obtain_max_lenght(source_file)
-	print (max_lenght)
 	beautify_file(sources_file_path, max_lenght + 5)
 	source_file.close()
 	print(Fore.GREEN + "✅ Makefile updated!" + Style.RESET_ALL)
