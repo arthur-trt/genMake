@@ -1,0 +1,8 @@
+Pip*
+Makefile
+sources.mk
+*.c
+!example
+*.egg-info
+.pypirc
+build
