@@ -72,7 +72,7 @@ setup(
 	#
 	# This field corresponds to the "Home-Page" metadata field:
 	# https://packaging.python.org/specifications/core-metadata/#home-page-optional
-	url="https://github.com/pypa/sampleproject",  # Optional
+	url="https://github.com/arthur-trt/genMake",  # Optional
 	# This should be your name or the name of the organization which owns the
 	# project.
 	author="Arthur - 42 Student",  # Optional
@@ -89,17 +89,14 @@ setup(
 		#   5 - Production/Stable
 		"Development Status :: 3 - Alpha",
 		# Indicate who your project is intended for
-		"Intended Audience :: Developers",
+		"Intended Audience :: 42 Student",
 		"Topic :: Software Development :: Build Tools",
 		# Pick your license as you wish
-		"License :: OSI Approved :: MIT License",
+		"License :: OSI Approved :: Unlicense License",
 		# Specify the Python versions you support here. In particular, ensure
 		# that you indicate whether you support Python 2, Python 3 or both.
 		# These classifiers are *not* checked by 'pip install'. See instead
 		# 'python_requires' below.
-		"Programming Language :: Python :: 2",
-		"Programming Language :: Python :: 2.7",
-		"Programming Language :: Python :: 3",
 		"Programming Language :: Python :: 3.5",
 		"Programming Language :: Python :: 3.6",
 		"Programming Language :: Python :: 3.7",
@@ -190,9 +187,7 @@ setup(
 	# maintainers, and where to support the project financially. The key is
 	# what's used to render the link text on PyPI.
 	project_urls={  # Optional
-		"Bug Reports": "https://github.com/pypa/sampleproject/issues",
-		"Funding": "https://donate.pypi.org",
-		"Say Thanks!": "http://saythanks.io/to/example",
-		"Source": "https://github.com/pypa/sampleproject/",
+		"Bug Reports": "https://github.com/arthur-trt/genMake/issues",
+		"Source": "https://github.com/arthur-trt/genMake/",
 	},
 )
