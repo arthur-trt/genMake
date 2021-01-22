@@ -144,7 +144,7 @@ def set_rules(params):
 def main():
 	parser = argparse.ArgumentParser(description='Generate Makefile for C Projects')
 	parser = argparse.ArgumentParser(prog='genmake')
-	parser.add_argument('--version', action='version', version='%(prog)s 0.1')
+	parser.add_argument('--version', action='version', version='%(prog)s 0.2')
 	parser.add_argument('--remake',
 		action="store_true",
 		help='Delete and reconstruct Makefile'
