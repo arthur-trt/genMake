@@ -10,6 +10,18 @@ This project allows to generate a Makefile compatible with the rules of school 4
 
 ![genmake](assets/genmake.gif)
 
+
+### Usage
+```
+genmake -h
+usage: genmake [-h] [--version] [--remake]
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --version   show program's version number and exit
+  --remake    Delete and reconstruct Makefile
+```
+
 ## Makefile
 The Makefile will support the `libftprintf` and `minilibx` libraries (standard to 42). There is also a DEBUG rule as well as norm
 
