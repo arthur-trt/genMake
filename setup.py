@@ -89,10 +89,10 @@ setup(
 		#   5 - Production/Stable
 		"Development Status :: 3 - Alpha",
 		# Indicate who your project is intended for
-		"Intended Audience :: 42 Student",
+		"Intended Audience :: Developers",
 		"Topic :: Software Development :: Build Tools",
 		# Pick your license as you wish
-		"License :: OSI Approved :: Unlicense License",
+		"License :: OSI Approved :: The Unlicense (Unlicense)",
 		# Specify the Python versions you support here. In particular, ensure
 		# that you indicate whether you support Python 2, Python 3 or both.
 		# These classifiers are *not* checked by 'pip install'. See instead
