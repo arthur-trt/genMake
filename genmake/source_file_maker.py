@@ -63,7 +63,7 @@ def beautify_file(sources_file_path, len: int):
 		if ".c" in line:
 			print('{0:{len}}{1}'.format(line.rstrip(), "\t\\\n", len=len), end='')
 		elif "+=" in line:
-			print('{0:{len}}{1}'.format(line.rstrip(), "\t\\\n", len=len), end='')
+			print('{0:{len}}{1}'.format(line.rstrip(), "\t\t\\\n", len=len), end='')
 		else:
 			print(line, end='')
 

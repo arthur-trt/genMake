@@ -58,7 +58,7 @@ def create_makefile(params):
 	Create Makefile and fill it with user params
 	"""
 	with open("Makefile", "wb") as file:
-		r = get("https://git.sperec.fr/arthur/genMake/raw/branch/main/template")
+		r = get("https://raw.githubusercontent.com/arthur-trt/genMake/main/template")
 		file.write(r.content)
 		file.close()
 	for line in fileinput.input("Makefile", inplace=True):
