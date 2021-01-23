@@ -18,6 +18,7 @@ import fileinput
 import sys
 import argparse
 from . import source_file_maker
+from . import build_rules
 import pathlib
 
 def obtain_parameters():
@@ -75,57 +76,11 @@ def create_makefile(params):
 	set_rules(params)
 	print(Fore.GREEN + "✅ Makefile created!" + Style.RESET_ALL)
 
-def build_rules(params):
-	"""
-	Create rules str according to user information
-	"""
-	rules = dict()
-
-	rules["clean"] = "\t@$(RM) -rf $(BUILDDIR)\n"
-	if params["library_libft"] == "y":
-		rules["clean"] += "\t@make $@ -s -C " + params["folder_libft"] + "\n"
-	if params["library_mlx"] == "y" and params["compile_mlx"] == "y":
-		rules["clean"] += "\t@make $@ -s -C " + params["folder_mlx"] + "\n"
-
-	rules["fclean"] = ""
-	if params["bin_folder"] == ".":
-		rules["fclean"] += "\t@$(RM) -rf $(TARGET)\n"
-	else:
-		rules["fclean"] += "\t@$(RM) -rf $(TARGETDIR)\n"
-	if params["library_libft"] == "y":
-		rules["fclean"] += "\t@make $@ -s -C " + params["folder_libft"] + "\n"
-
-	rules["rules"] = ""
-	if params["library_libft"] == "y":
-		rules["rules"] += "libft:\n"
-		rules["rules"] += "\t@make -s -C " + params["folder_libft"] + "\n"
-	if params["library_mlx"] == "y" and params["compile_mlx"] == "y":
-		rules["rules"] += "\nminilibx:\n"
-		rules["rules"] += "\t@make -s -C " + params["folder_mlx"] + "\n"
-
-	rules["all_rules"] = "directories"
-	if params["library_libft"] == "y":
-		rules["all_rules"] += " libft"
-	if params["library_mlx"] == "y" and params["compile_mlx"] == "y":
-		rules["all_rules"] += " minilibx"
-	rules["all_rules"] += " $(TARGET)"
-
-	rules["lib_inc"] = ""
-	if params["library_libft"] == "y":
-		rules["lib_inc"] += " -L" + params["folder_libft"] + " -lftprintf"
-	if params["library_mlx"] == "y" and params["compile_mlx"] == "y":
-		rules["lib_inc"] += " -L" + params["folder_mlx"] + " -lmlx"
-	if params["library"]:
-		rules["lib_inc"] += " " + params["library"]
-	rules["lib_inc"] += "\n"
-
-	return rules
-
 def set_rules(params):
 	"""
 	Modifying rules with user informations
 	"""
-	rules = build_rules(params)
+	rules = build_rules.build_rules(params)
 	for line in fileinput.input("Makefile", inplace=True):
 		if "VAR_LIB" in line:
 			print(line.replace("VAR_LIB", rules["lib_inc"]), end='')
