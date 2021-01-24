@@ -12,100 +12,89 @@
 #                                                                              #
 # **************************************************************************** #
 
-def	clean_rules(rules: dict, params: dict):
+def	clean(params: dict):
 	"""
 	Build clean rules for Makefile
 	"""
-	rules["clean"] = "\t@$(RM) -rf $(BUILDDIR)\n"
+	clean = "\t@$(RM) -rf $(BUILDDIR)\n"
 
-	if params["library_libft"] == "y":
-		rules["clean"] += "\t@make $@ -s -C " + params["folder_libft"] + "\n"
-	if params["library_mlx"] == "y" and params["compile_mlx"] == "y":
-		rules["clean"] += "\t@make $@ -s -C " + params["folder_mlx"] + "\n"
+	if params["library_libft"]:
+		clean += "\t@make $@ -s -C " + params["folder_libft"] + "\n"
+	if params["library_mlx"] and params["compile_mlx"]:
+		clean += "\t@make $@ -s -C " + params["folder_mlx"] + "\n"
 
-	return rules
+	return clean
 
-def	fclean_rules(rules: dict, params: dict):
+def	fclean(params: dict):
 	"""
 	Build fclean rules for Makefile
 	"""
-	rules["fclean"] = ""
+	fclean = str()
 
 	if params["bin_folder"] == ".":
-		rules["fclean"] += "\t@$(RM) -rf $(TARGET)\n"
+		fclean += "\t@$(RM) -rf $(TARGET)\n"
 	else:
-		rules["fclean"] += "\t@$(RM) -rf $(TARGETDIR)\n"
-	if params["library_libft"] == "y":
-		rules["fclean"] += "\t@make $@ -s -C " + params["folder_libft"] + "\n"
+		fclean += "\t@$(RM) -rf $(TARGETDIR)\n"
+	if params["library_libft"]:
+		fclean += "\t@make $@ -s -C " + params["folder_libft"] + "\n"
 
-	return rules
+	return fclean
 
-def lib_rules(rules: dict, params: dict):
+def lib(params: dict):
 	"""
 	Build rules for make lib
 	"""
-	rules["rules"] = ""
+	rules = str()
 
-	if params["library_libft"] == "y":
-		rules["rules"] += "libft:\n"
-		rules["rules"] += "\t@make -s -C " + params["folder_libft"] + "\n"
-	if params["library_mlx"] == "y" and params["compile_mlx"] == "y":
-		rules["rules"] += "\nminilibx:\n"
-		rules["rules"] += "\t@make -s -C " + params["folder_mlx"] + "\n"
+	if params["library_libft"]:
+		rules += "libft:\n"
+		rules += "\t@make -s -C " + params["folder_libft"] + "\n"
+	if params["library_mlx"] and params["compile_mlx"]:
+		rules += "\nminilibx:\n"
+		rules += "\t@make -s -C " + params["folder_mlx"] + "\n"
 
 	return rules
 
-def all_rules(rules: dict, params: dict):
+def all(params: dict):
 	"""
 	Build rules for all with all lib
 	"""
-	rules["all_rules"] = "directories"
+	all_rules = "directories"
 
-	if params["library_libft"] == "y":
-		rules["all_rules"] += " libft"
-	if params["library_mlx"] == "y" and params["compile_mlx"] == "y":
-		rules["all_rules"] += " minilibx"
-	rules["all_rules"] += " $(TARGET)"
+	if params["library_libft"]:
+		all_rules += " libft"
+	if params["library_mlx"] and params["compile_mlx"]:
+		all_rules += " minilibx"
+	all_rules += " $(TARGET)"
 
-	return rules
+	return all_rules
 
-def lib_inc(rules: dict, params: dict):
+def lib_inc(params: dict):
 	"""
 	Build lib inc for linker settings
 	"""
-	rules["lib_inc"] = ""
+	lib_inc = str()
 
-	if params["library_libft"] == "y":
-		rules["lib_inc"] += " -L" + params["folder_libft"] + " -lftprintf"
-	if params["library_mlx"] == "y" and params["compile_mlx"] == "y":
-		rules["lib_inc"] += " -L" + params["folder_mlx"] + " -lmlx"
+	if params["library_libft"]:
+		lib_inc += " -L" + params["folder_libft"] + " -lftprintf"
+	if params["library_mlx"] and params["compile_mlx"]:
+		lib_inc += " -L" + params["folder_mlx"] + " -lmlx"
 	if params["library"]:
-		rules["lib_inc"] += " " + params["library"]
+		lib_inc += " " + params["library"]
 
-	rules["lib_inc"] += "\n"
+	lib_inc += "\n"
 
-	return rules
+	return lib_inc
 
-def build_rules(params):
+def phony(params: dict):
 	"""
-	Create rules str according to user information
+	Build phony rules according to 42 rules
 	"""
-	rules = dict()
+	phony = "all re clean fclean norm"
 
-	clean_rules(rules, params)
-	fclean_rules(rules, params)
-	lib_rules(rules, params)
-	all_rules(rules, params)
-	lib_inc(rules, params)
+	if params["library_libft"]:
+		phony += " libft"
+	if params["library_mlx"] and params["compile_mlx"]:
+		phony += " minilibx"
 
-	return rules
-
-
-
-
-
-
-
-
-
-
+	return phony

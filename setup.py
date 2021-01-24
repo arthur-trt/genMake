@@ -4,6 +4,7 @@ https://packaging.python.org/guides/distributing-packages-using-setuptools/
 https://github.com/pypa/sampleproject
 Modified by Madoshakalaka@Github (dependency links added)
 """
+import genmake.config as config
 
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
@@ -36,18 +37,18 @@ setup(
     # There are some restrictions on what makes a valid project name
     # specification here:
     # https://packaging.python.org/specifications/core-metadata/#name
-    name="genmake",  # Required
+    name=config.PROG,  # Required
     # Versions should comply with PEP 440:
     # https://www.python.org/dev/peps/pep-0440/
     #
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version="0.2.3",  # Required
+    version=config.VERSION,  # Required
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#summary
-    description="Generate Makefile for C Projects",  # Optional
+    description=config.DESC,  # Optional
     # This is an optional longer description of your project that represents
     # the body of text which users will see when they visit PyPI.
     #
@@ -142,6 +143,7 @@ setup(
         "keyring==21.8.0; python_version >= '3.6'",
         "packaging==20.8; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
         "pkginfo==1.7.0",
+        "prompt-toolkit==3.0.13",
         "pycparser==2.20; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
         "pygments==2.7.4; python_version >= '3.5'",
         "pyparsing==2.4.7; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
@@ -154,6 +156,7 @@ setup(
         "tqdm==4.56.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
         "twine==3.3.0",
         "urllib3==1.26.2; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
+        "wcwidth==0.2.5",
         "webencodings==0.5.1",
     ],  # Optional
     # List additional groups of dependencies here (e.g. development

@@ -100,5 +100,3 @@ def populate_sources():
 	beautify_file(sources_file_path, max_lenght + 5)
 	source_file.close()
 	print(Fore.GREEN + "✅ Makefile updated!" + Style.RESET_ALL)
-
-
