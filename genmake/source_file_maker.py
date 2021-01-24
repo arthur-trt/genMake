@@ -79,6 +79,9 @@ def create_source_file():
 	return source_file
 
 def obtain_src_folder():
+	"""
+	Parse Makefile and return the SRCDIR configured by user
+	"""
 	with open("Makefile", 'r') as file:
 		for line in file:
 			if "SRCDIR" in line:
@@ -97,5 +100,3 @@ def populate_sources():
 	beautify_file(sources_file_path, max_lenght + 5)
 	source_file.close()
 	print(Fore.GREEN + "✅ Makefile updated!" + Style.RESET_ALL)
-
-
