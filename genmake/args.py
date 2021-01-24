@@ -12,7 +12,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-from pathlib import Path
 import genmake.config as config
 import argparse
 
@@ -30,5 +29,6 @@ def	parse_args():
 		version='%(prog)s ' + config.VERSION
 	)
 	args = parser.parse_args()
+	
 	return args
 

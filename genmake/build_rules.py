@@ -12,7 +12,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-def	clean(params: dict):
+def	clean(params: dict) -> str:
 	"""
 	Build clean rules for Makefile
 	"""
@@ -25,7 +25,7 @@ def	clean(params: dict):
 
 	return clean
 
-def	fclean(params: dict):
+def	fclean(params: dict) -> str:
 	"""
 	Build fclean rules for Makefile
 	"""
@@ -40,7 +40,7 @@ def	fclean(params: dict):
 
 	return fclean
 
-def lib(params: dict):
+def lib(params: dict) -> str:
 	"""
 	Build rules for make lib
 	"""
@@ -55,7 +55,7 @@ def lib(params: dict):
 
 	return rules
 
-def all(params: dict):
+def all(params: dict) -> str:
 	"""
 	Build rules for all with all lib
 	"""
@@ -69,7 +69,7 @@ def all(params: dict):
 
 	return all_rules
 
-def lib_inc(params: dict):
+def lib_inc(params: dict) -> str:
 	"""
 	Build lib inc for linker settings
 	"""
@@ -86,7 +86,7 @@ def lib_inc(params: dict):
 
 	return lib_inc
 
-def phony(params: dict):
+def phony(params: dict) -> str:
 	"""
 	Build phony rules according to 42 rules
 	"""

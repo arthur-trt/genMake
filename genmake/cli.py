@@ -24,7 +24,7 @@ def	input_bool(prompt: str) -> bool:
 		else:
 			continue
 
-def obtain_parameters():
+def obtain_parameters() -> dict:
 	"""
 	Obtain parameters from the user
 	"""
@@ -45,4 +45,5 @@ def obtain_parameters():
 		if params["compile_mlx"]:
 			params["folder_mlx"] = input("\t\t\tMinilibx folder : ")
 	params["library"] = input("\t\tOther argument for library (empty if none) : ")
+
 	return params

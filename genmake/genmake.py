@@ -21,7 +21,7 @@ from .cli import obtain_parameters
 from .makefile import generate_makefile
 
 
-def create_makefile(params):
+def create_makefile(params: dict):
 	"""
 	Create Makefile and fill it with user params
 	"""

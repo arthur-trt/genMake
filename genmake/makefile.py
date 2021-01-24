@@ -15,7 +15,7 @@
 import genmake.config as config
 import genmake.build_rules as build_rules
 
-def	generate_makefile(params):
+def	generate_makefile(params: dict) -> str:
 
 	config.BUILDER['target'] = params["target"]
 	config.BUILDER["src_dir"] = params["src_folder"]
