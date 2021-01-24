@@ -131,33 +131,7 @@ setup(
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        "bleach==3.2.2; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
-        "certifi==2020.12.5",
-        "cffi==1.14.4",
-        "chardet==4.0.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
-        "colorama==0.4.4",
-        "cryptography==3.3.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
-        "docutils==0.16; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
-        "idna==2.10; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "jeepney==0.6.0; sys_platform == 'linux'",
-        "keyring==21.8.0; python_version >= '3.6'",
-        "packaging==20.8; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "pkginfo==1.7.0",
-        "prompt-toolkit==3.0.13",
-        "pycparser==2.20; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "pygments==2.7.4; python_version >= '3.5'",
-        "pyparsing==2.4.7; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "readme-renderer==28.0",
-        "requests==2.25.1",
-        "requests-toolbelt==0.9.1",
-        "rfc3986==1.4.0",
-        "secretstorage==3.3.0; sys_platform == 'linux'",
-        "six==1.15.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "tqdm==4.56.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-        "twine==3.3.0",
-        "urllib3==1.26.2; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
-        "wcwidth==0.2.5",
-        "webencodings==0.5.1",
+        "colorama==0.4.4; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
     ],  # Optional
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
