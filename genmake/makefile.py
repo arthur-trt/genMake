@@ -54,7 +54,11 @@ OBJECTS			:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT
 cflags.release		:= -Wall -Werror -Wextra
 cflags.debug		:= -Wall -Werror -Wextra -DDEBUG -ggdb -fsanitize=address -fno-omit-frame-pointer
 CFLAGS			:= $(cflags.$(BUILD))
-LIB			:= {lib}
+
+lib.release		:= {lib}
+lib.debug		:= $(lib.release) -fsanitize=address -fno-omit-frame-pointer
+LIB			:= $(lib.$(BUILD))
+
 INC			:= -I$(INCDIR) -I/usr/local/include
 INCDEP			:= -I$(INCDIR)
 

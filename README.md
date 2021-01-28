@@ -60,7 +60,6 @@ pip3 install genmake -U
 ```
 
 ### Known problems :
-- The Makefile template is re-downloaded each time it has to be created, so the program does not work without the internet
 - The code is not clean
 - Many parameters are hard-coded, it would be necessary to create a configuration file.
 - You will tell me :D
