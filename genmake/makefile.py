@@ -30,7 +30,10 @@ def	generate_makefile(params: dict) -> str:
 
 	content = '''\
 #Compiler and Linker
-CC			:= clang-9
+CC				:= clang-9
+ifeq ($(shell uname -s),Darwin)
+	CC			:= gcc
+endif
 
 #The Target Binary Program
 TARGET			:= {target}
@@ -52,6 +55,7 @@ OBJECTS			:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT
 
 #Flags, Libraries and Includes
 cflags.release		:= -Wall -Werror -Wextra
+cflags.valgrind		:= -Wall -Werror -Wextra -DDEBUG -ggdb
 cflags.debug		:= -Wall -Werror -Wextra -DDEBUG -ggdb -fsanitize=address -fno-omit-frame-pointer
 CFLAGS			:= $(cflags.$(BUILD))
 
