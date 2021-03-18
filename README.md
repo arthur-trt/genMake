@@ -29,6 +29,7 @@ The Makefile will support the `libftprintf` and `minilibx` libraries (standard t
 ```
 make
 make BUILD=debug
+make BUILD=valgrind
 make re
 make clean
 make fclean
