@@ -23,7 +23,8 @@ optional arguments:
 ```
 
 ## Makefile
-The Makefile will support the `libftprintf` and `minilibx` libraries (standard to 42). There is also a DEBUG rule as well as norm
+The Makefile will support the `libftprintf` and `minilibx` libraries (standard to 42). There is also a DEBUG rule as well as norm.
+The Makefile will use GCC on MacOS and clang-9 on Linux
 
 ### Usage of makefile
 ```
