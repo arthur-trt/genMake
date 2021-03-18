@@ -43,16 +43,25 @@ If you use the Debug rule, the following parameters will be added during compila
 ```
 -DDEBUG -ggdb -fsanitize=address -fno-omit-frame-pointer
 ```
+The valgrind rule is the same as above, but without fsanitize
 
 ## Installation
 To install it just do :
 ```
 pip3 install genmake
 ```
+or on 42 iMac :
+```
+python3 -m pip install genmake
+```
 
 If the command is not available even after installation, please check that `$HOME/.local/bin` is in the PATH. If it is not the case you can add this to your `.zshrc` :
 ```
 export PATH=$HOME/.local/bin:$PATH
+```
+or on 42 iMac :
+```
+export PATH=$HOME/Library/Python/3.7/bin:$PATH
 ```
 
 ## Upgrade
