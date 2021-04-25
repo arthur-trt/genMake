@@ -29,6 +29,7 @@ The Makefile will use GCC on MacOS and clang-9 on Linux
 ### Usage of makefile
 ```
 make
+make bonus
 make BUILD=debug
 make BUILD=valgrind
 make re
