@@ -1,8 +1,12 @@
 #Compiler and Linker
 CC			:= clang-9
+ifeq ($(shell uname -s),Darwin)
+	CC		:= gcc
+endif
 
 #The Target Binary Program
-TARGET			:= example
+TARGET			:= Example
+TARGET_BONUS		:= Example-bonus
 
 BUILD			:= release
 
@@ -12,18 +16,24 @@ include sources.mk
 SRCDIR			:= test
 INCDIR			:= inc
 BUILDDIR		:= obj
-TARGETDIR		:= .
+TARGETDIR		:= bin
 SRCEXT			:= c
 DEPEXT			:= d
 OBJEXT			:= o
 
 OBJECTS			:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
+OBJECTS_BONUS		:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES_BONUS:.$(SRCEXT)=.$(OBJEXT)))
 
 #Flags, Libraries and Includes
-cflags.release		:= -Wall -Werror -Wextra -ggdb
+cflags.release		:= -Wall -Werror -Wextra
+cflags.valgrind		:= -Wall -Werror -Wextra -DDEBUG -ggdb
 cflags.debug		:= -Wall -Werror -Wextra -DDEBUG -ggdb -fsanitize=address -fno-omit-frame-pointer
 CFLAGS			:= $(cflags.$(BUILD))
-LIB			:=  -lm
+
+lib.release		:=  -ltest -ltry
+
+lib.debug		:= $(lib.release) -fsanitize=address -fno-omit-frame-pointer
+LIB			:= $(lib.$(BUILD))
 
 INC			:= -I$(INCDIR) -I/usr/local/include
 INCDEP			:= -I$(INCDIR)
@@ -44,14 +54,20 @@ ERASE			:= $(ECHO) $(ES_ERASE)
 HIDE_STD		:= > /dev/null
 HIDE_ERR		:= 2> /dev/null || true
 
-GREP			:= grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}
-NORMINETTE		:= norminette `ls | grep -v "_main*" | grep -v "test*"`
+GREP			:= grep --color=auto --exclude-dir=.git
+NORMINETTE		:= norminette `ls`
 
 #Defauilt Make
 all: directories $(TARGET)
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\t\t[$(C_SUCCESS)✅$(C_RESET)]"
 	@$(ECHO) "$(C_SUCCESS)All done, compilation successful! 👌 $(C_RESET)"
+
+bonus: CFLAGS += -DBONUS
+bonus: directories $(TARGET_BONUS)
+	@$(ERASE)
+	@$(ECHO) "$(TARGET)\t\t[$(C_SUCCESS)✅$(C_RESET)]"
+	@$(ECHO) "$(C_SUCCESS)All done, compilation successful with bonus! 👌 $(C_RESET)"
 
 #Remake
 re: fclean all
@@ -68,17 +84,21 @@ clean:
 
 #Full Clean, Objects and Binaries
 fclean: clean
-	@$(RM) -rf $(TARGET)
+	@$(RM) -rf $(TARGETDIR)
 
 
 #Pull in dependency info for *existing* .o files
 -include $(OBJECTS:.$(OBJEXT)=.$(DEPEXT))
 
-#Link
+# Link
 $(TARGET): $(OBJECTS)
 	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
 
-#Compile
+# Link Bonus
+$(TARGET_BONUS): $(OBJECTS_BONUS)
+	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
+
+# Compile
 $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(dir $@)
 	@$(ECHO) "$(TARGET)\t\t[$(C_PENDING)⏳$(C_RESET)]"
@@ -96,5 +116,5 @@ $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 norm:
 	@$(NORMINETTE) | $(GREP) -v "Not a valid file" | $(GREP) "Error\|Warning" -B 1 || true
 
-#Non-File Targets
-.PHONY: all re clean fclean norm
+# Non-File Targets
+.PHONY: all re clean fclean norm bonus

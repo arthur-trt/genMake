@@ -39,13 +39,29 @@ def write_file_list(source_file, files):
 		source_file.write("\t\t" + str(file) + "\n")
 	source_file.write("\n\n")
 
+def write_file_list_bonus(source_file, files):
+	source_file.write("SOURCES_BONUS\t+= $(SOURCES)\n")
+	for file in files:
+		source_file.write("\t\t" + str(file) + "\n")
+	source_file.write("\n\n")
+
+def obtain_bonus(src_folder):
+	p = pathlib.Path(src_folder).glob('**/*_bonus.c')
+	return (list(p))
+
 def build_source_file(source_file):
-	dirs = obtain_list_dir(obtain_src_folder())
+	srcs_folder = obtain_src_folder()
+	dirs = obtain_list_dir(srcs_folder)
 	for dir in dirs:
 		files = obtain_list_file(dir, ".c")
 		if files:
 			write_comment(source_file, str(dir))
 			write_file_list(source_file, files)
+	bonus = obtain_bonus(srcs_folder)
+	if bonus:
+		write_comment(source_file, "BONUS")
+		write_file_list_bonus(source_file, bonus)
+
 
 def obtain_max_lenght(source_file):
 	max_length = 0
@@ -62,8 +78,10 @@ def beautify_file(sources_file_path, len: int):
 	for line in fileinput.input(sources_file_path, inplace=True):
 		if ".c" in line:
 			print('{0:{len}}{1}'.format(line.rstrip(), "\t\\\n", len=len), end='')
-		elif "+=" in line:
+		elif "+=" in line and "_BONUS" not in line:
 			print('{0:{len}}{1}'.format(line.rstrip(), "\t\t\\\n", len=len), end='')
+		elif "SOURCES_BONUS" in line:
+			print('{0:{len}}{1}'.format(line.rstrip(), "\t\t\t\\\n", len=len), end='')
 		else:
 			print(line, end='')
 

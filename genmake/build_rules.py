@@ -69,6 +69,20 @@ def all(params: dict) -> str:
 
 	return all_rules
 
+def bonus(params: dict) -> str:
+	"""
+	Build rules for bonus with all lib
+	"""
+	all_rules = "directories"
+
+	if params["library_libft"]:
+		all_rules += " libft"
+	if params["library_mlx"] and params["compile_mlx"]:
+		all_rules += " minilibx"
+	all_rules += " $(TARGET_BONUS)"
+
+	return all_rules
+
 def lib_inc(params: dict) -> str:
 	"""
 	Build lib inc for linker settings
@@ -90,7 +104,7 @@ def phony(params: dict) -> str:
 	"""
 	Build phony rules according to 42 rules
 	"""
-	phony = "all re clean fclean norm"
+	phony = "all re clean fclean norm bonus"
 
 	if params["library_libft"]:
 		phony += " libft"

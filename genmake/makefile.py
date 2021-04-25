@@ -23,6 +23,7 @@ def	generate_makefile(params: dict) -> str:
 	config.BUILDER["bin_dir"] = params["bin_folder"]
 	config.BUILDER["lib"] = build_rules.lib_inc(params)
 	config.BUILDER["all_rules"] = build_rules.all(params)
+	config.BUILDER["bonus_rules"] = build_rules.bonus(params)
 	config.BUILDER["clean_rules"] = build_rules.clean(params)
 	config.BUILDER["fclean_rules"] = build_rules.fclean(params)
 	config.BUILDER["rules"] = build_rules.lib(params)
@@ -30,13 +31,14 @@ def	generate_makefile(params: dict) -> str:
 
 	content = '''\
 #Compiler and Linker
-CC				:= clang-9
+CC			:= clang-9
 ifeq ($(shell uname -s),Darwin)
-	CC			:= gcc
+	CC		:= gcc
 endif
 
 #The Target Binary Program
 TARGET			:= {target}
+TARGET_BONUS		:= {target}-bonus
 
 BUILD			:= release
 
@@ -52,6 +54,7 @@ DEPEXT			:= d
 OBJEXT			:= o
 
 OBJECTS			:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
+OBJECTS_BONUS		:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES_BONUS:.$(SRCEXT)=.$(OBJEXT)))
 
 #Flags, Libraries and Includes
 cflags.release		:= -Wall -Werror -Wextra
@@ -85,36 +88,47 @@ HIDE_ERR		:= 2> /dev/null || true
 GREP			:= grep --color=auto --exclude-dir=.git
 NORMINETTE		:= norminette `ls`
 
-#Defauilt Make
+# Defauilt Make
 all: {all_rules}
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_SUCCESS)✅$(C_RESET)]"
 	@$(ECHO) "$(C_SUCCESS)All done, compilation successful! 👌 $(C_RESET)"
 
-#Remake
+# Bonus rule
+bonus: CFLAGS += -DBONUS
+bonus: {bonus_rules}
+	@$(ERASE)
+	@$(ECHO) "$(TARGET)\\t\\t[$(C_SUCCESS)✅$(C_RESET)]"
+	@$(ECHO) "$(C_SUCCESS)All done, compilation successful with bonus! 👌 $(C_RESET)"
+
+# Remake
 re: fclean all
 
-#Make the Directories
+# Make the Directories
 directories:
 	@mkdir -p $(TARGETDIR)
 	@mkdir -p $(BUILDDIR)
 
-#Clean only Objecst
+# Clean only Objecst
 clean:
 {clean_rules}
 
-#Full Clean, Objects and Binaries
+# Full Clean, Objects and Binaries
 fclean: clean
 {fclean_rules}
 
-#Pull in dependency info for *existing* .o files
+# Pull in dependency info for *existing* .o files
 -include $(OBJECTS:.$(OBJEXT)=.$(DEPEXT))
 
-#Link
+# Link
 $(TARGET): $(OBJECTS)
 	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
 
-#Compile
+# Link Bonus
+$(TARGET_BONUS): $(OBJECTS_BONUS)
+	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
+
+# Compile
 $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(dir $@)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_PENDING)⏳$(C_RESET)]"
@@ -132,7 +146,7 @@ $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 norm:
 	@$(NORMINETTE) | $(GREP) -v "Not a valid file" | $(GREP) "Error\|Warning" -B 1 || true
 
-#Non-File Targets
+# Non-File Targets
 .PHONY: {phony}
 \
 '''
