@@ -53,7 +53,7 @@ pip3 install genmake
 ```
 or on 42 iMac :
 ```
-python3 -m pip install genmake
+python3 -m pip install --user genmake
 ```
 
 If the command is not available even after installation, please check that `$HOME/.local/bin` is in the PATH. If it is not the case you can add this to your `.zshrc` :
@@ -69,6 +69,10 @@ export PATH=$HOME/Library/Python/3.7/bin:$PATH
 To update, this command is enough:
 ```
 pip3 install genmake -U
+```
+or on 42 iMac :
+```
+pip3 install --user --upgrade genmake
 ```
 
 ### Known problems :
