@@ -13,7 +13,7 @@
 # **************************************************************************** #
 
 PROG="genmake"
-VERSION="0.6"
+VERSION="0.7"
 DESC="Generate Makefile for C Project of 42 School"
 
 BUILDER=dict()

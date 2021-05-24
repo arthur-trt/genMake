@@ -36,7 +36,8 @@ def write_comment(file, text: str):
 def write_file_list(source_file, files):
 	source_file.write("SOURCES\t\t+=\n")
 	for file in files:
-		source_file.write("\t\t" + str(file) + "\n")
+		if "_bonus" not in str(file):
+			source_file.write("\t\t" + str(file) + "\n")
 	source_file.write("\n\n")
 
 def write_file_list_bonus(source_file, files):
