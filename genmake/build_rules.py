@@ -48,10 +48,10 @@ def lib(params: dict) -> str:
 
 	if params["library_libft"]:
 		rules += "libft:\n"
-		rules += "\t@make -s -C " + params["folder_libft"] + "\n"
+		rules += "\t@make -C " + params["folder_libft"] + "\n"
 	if params["library_mlx"] and params["compile_mlx"]:
 		rules += "\nminilibx:\n"
-		rules += "\t@make -s -C " + params["folder_mlx"] + "\n"
+		rules += "\t@make -C " + params["folder_mlx"] + "\n"
 
 	return rules
 
