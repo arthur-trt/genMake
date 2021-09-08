@@ -6,7 +6,7 @@
 #    By: atrouill <atrouill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 10:01:25 by atrouill          #+#    #+#              #
-#    Updated: 2021/09/08 11:11:26 by atrouill         ###   ########.fr        #
+#    Updated: 2021/09/08 11:20:46 by atrouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ def	check_update():
 			print("\t" + line)
 		print(Style.RESET_ALL)
 
-	if (origin["version"] != gen):
+	elif (config.VERSION != gen):
 		print(Fore.YELLOW, end='')
 		print("Your Makefile was generated with an old version of genmake")
 		print("It is recommended to run 'genmake --remake' to correct possible bugs")
