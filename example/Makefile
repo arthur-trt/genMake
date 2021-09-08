@@ -1,3 +1,7 @@
+# Generated with GenMake
+# Arthur-TRT - https://github.com/arthur-trt/genMake
+# genmake v0.9
+
 #Compiler and Linker
 CC			:= clang-9
 ifeq ($(shell uname -s),Darwin)
@@ -30,7 +34,7 @@ cflags.valgrind		:= -Wall -Werror -Wextra -DDEBUG -ggdb
 cflags.debug		:= -Wall -Werror -Wextra -DDEBUG -ggdb -fsanitize=address -fno-omit-frame-pointer
 CFLAGS			:= $(cflags.$(BUILD))
 
-lib.release		:=  -ltest -ltry
+lib.release		:= -ltest -ltry
 
 lib.debug		:= $(lib.release) -fsanitize=address -fno-omit-frame-pointer
 LIB			:= $(lib.$(BUILD))
@@ -57,46 +61,47 @@ HIDE_ERR		:= 2> /dev/null || true
 GREP			:= grep --color=auto --exclude-dir=.git
 NORMINETTE		:= norminette `ls`
 
-#Defauilt Make
-all: directories $(TARGET)
+# Default Make
+all:  $(TARGETDIR)/$(TARGET)
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\t\t[$(C_SUCCESS)✅$(C_RESET)]"
 	@$(ECHO) "$(C_SUCCESS)All done, compilation successful! 👌 $(C_RESET)"
 
+# Bonus rule
 bonus: CFLAGS += -DBONUS
-bonus: directories $(TARGET_BONUS)
+bonus: directories $(TARGETDIR)/$(TARGET_BONUS)
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\t\t[$(C_SUCCESS)✅$(C_RESET)]"
 	@$(ECHO) "$(C_SUCCESS)All done, compilation successful with bonus! 👌 $(C_RESET)"
 
-#Remake
+# Remake
 re: fclean all
 
-#Make the Directories
-directories:
-	@mkdir -p $(TARGETDIR)
-	@mkdir -p $(BUILDDIR)
-
-#Clean only Objecst
+# Clean only Objects
 clean:
 	@$(RM) -rf $(BUILDDIR)
 
 
-#Full Clean, Objects and Binaries
+# Full Clean, Objects and Binaries
 fclean: clean
 	@$(RM) -rf $(TARGETDIR)
 
 
-#Pull in dependency info for *existing* .o files
+# Pull in dependency info for *existing* .o files
 -include $(OBJECTS:.$(OBJEXT)=.$(DEPEXT))
 
 # Link
-$(TARGET): $(OBJECTS)
+$(TARGETDIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(TARGETDIR)
 	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
 
 # Link Bonus
-$(TARGET_BONUS): $(OBJECTS_BONUS)
+$(TARGETDIR)/$(TARGET_BONUS): $(OBJECTS_BONUS)
+	@mkdir -p $(TARGETDIR)
 	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
+
+$(BUILDIR):
+	@mkdir -p $@
 
 # Compile
 $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
