@@ -19,7 +19,7 @@ from .source_file_maker import populate_sources
 from .args import parse_args
 from .cli import obtain_parameters
 from .makefile import generate_makefile
-
+from .update import check_update
 
 def create_makefile(params: dict):
 	"""
@@ -36,6 +36,7 @@ def create_makefile(params: dict):
 def main():
 	args = parse_args()
 	p = Path('Makefile')
+	check_update()
 	if (args.remake == True) or not p.exists():
 		params = obtain_parameters()
 		create_makefile(params)
