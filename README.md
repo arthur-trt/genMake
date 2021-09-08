@@ -8,7 +8,7 @@ This is my first real Python project. I am not a Python developer, and the code 
 
 This project allows to generate a Makefile compatible with the rules of school 42. It also allows to update the name of the sources in a fully automated way.
 
-![genmake](assets/genmake.gif)
+![genmake](https://github.com/arthur-trt/genMake/raw/main/assets/genmake.gif)
 
 
 ### Usage
