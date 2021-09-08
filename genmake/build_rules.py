@@ -19,9 +19,9 @@ def	clean(params: dict) -> str:
 	clean = "\t@$(RM) -rf $(BUILDDIR)\n"
 
 	if params["library_libft"]:
-		clean += "\t@make $@ -s -C " + params["folder_libft"] + "\n"
+		clean += "\t@make $@ -C " + params["folder_libft"] + "\n"
 	if params["library_mlx"] and params["compile_mlx"]:
-		clean += "\t@make $@ -s -C " + params["folder_mlx"] + "\n"
+		clean += "\t@make $@ -C " + params["folder_mlx"] + "\n"
 
 	return clean
 
@@ -36,7 +36,7 @@ def	fclean(params: dict) -> str:
 	else:
 		fclean += "\t@$(RM) -rf $(TARGETDIR)\n"
 	if params["library_libft"]:
-		fclean += "\t@make $@ -s -C " + params["folder_libft"] + "\n"
+		fclean += "\t@make $@ -C " + params["folder_libft"] + "\n"
 
 	return fclean
 
@@ -59,13 +59,13 @@ def all(params: dict) -> str:
 	"""
 	Build rules for all with all lib
 	"""
-	all_rules = "directories"
+	all_rules = str()
 
 	if params["library_libft"]:
 		all_rules += " libft"
 	if params["library_mlx"] and params["compile_mlx"]:
 		all_rules += " minilibx"
-	all_rules += " $(TARGET)"
+	all_rules += " $(TARGETDIR)/$(TARGET)"
 
 	return all_rules
 
@@ -79,7 +79,7 @@ def bonus(params: dict) -> str:
 		all_rules += " libft"
 	if params["library_mlx"] and params["compile_mlx"]:
 		all_rules += " minilibx"
-	all_rules += " $(TARGET_BONUS)"
+	all_rules += " $(TARGETDIR)/$(TARGET_BONUS)"
 
 	return all_rules
 

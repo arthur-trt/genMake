@@ -17,6 +17,7 @@ import genmake.build_rules as build_rules
 
 def	generate_makefile(params: dict) -> str:
 
+	config.BUILDER["version"] = config.VERSION
 	config.BUILDER['target'] = params["target"]
 	config.BUILDER["src_dir"] = params["src_folder"]
 	config.BUILDER["inc_dir"] = params["inc_folder"]
@@ -30,6 +31,10 @@ def	generate_makefile(params: dict) -> str:
 	config.BUILDER["phony"] = build_rules.phony(params)
 
 	content = '''\
+# Generated with GenMake
+# Arthur-TRT - https://github.com/arthur-trt/genMake
+# genmake {version}
+
 #Compiler and Linker
 CC			:= clang-9
 ifeq ($(shell uname -s),Darwin)
@@ -88,7 +93,7 @@ HIDE_ERR		:= 2> /dev/null || true
 GREP			:= grep --color=auto --exclude-dir=.git
 NORMINETTE		:= norminette `ls`
 
-# Defauilt Make
+# Default Make
 all: {all_rules}
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_SUCCESS)✅$(C_RESET)]"
@@ -104,12 +109,7 @@ bonus: {bonus_rules}
 # Remake
 re: fclean all
 
-# Make the Directories
-directories:
-	@mkdir -p $(TARGETDIR)
-	@mkdir -p $(BUILDDIR)
-
-# Clean only Objecst
+# Clean only Objects
 clean:
 {clean_rules}
 
@@ -121,12 +121,17 @@ fclean: clean
 -include $(OBJECTS:.$(OBJEXT)=.$(DEPEXT))
 
 # Link
-$(TARGET): $(OBJECTS)
+$(TARGETDIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(TARGETDIR)
 	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
 
 # Link Bonus
-$(TARGET_BONUS): $(OBJECTS_BONUS)
+$(TARGETDIR)/$(TARGET_BONUS): $(OBJECTS_BONUS)
+	@mkdir -p $(TARGETDIR)
 	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
+
+$(BUILDIR):
+	@mkdir -p $@
 
 # Compile
 $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
