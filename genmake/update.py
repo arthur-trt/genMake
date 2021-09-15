@@ -6,7 +6,7 @@
 #    By: atrouill <atrouill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 10:01:25 by atrouill          #+#    #+#              #
-#    Updated: 2021/09/08 11:20:46 by atrouill         ###   ########.fr        #
+#    Updated: 2021/09/15 08:47:42 by atrouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ import requests
 import pathlib
 from colorama import Style, Fore
 import genmake.config as config
+import os.path
 
 def	get_last_version() -> dict:
 	origin_infos = dict()
@@ -50,7 +51,7 @@ def	check_update():
 			print("\t" + line)
 		print(Style.RESET_ALL)
 
-	elif (config.VERSION != gen):
+	elif (config.VERSION != gen) and (os.path.isfile('./Makefile')):
 		print(Fore.YELLOW, end='')
 		print("Your Makefile was generated with an old version of genmake")
 		print("It is recommended to run 'genmake --remake' to correct possible bugs")
