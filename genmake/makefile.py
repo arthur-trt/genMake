@@ -36,7 +36,7 @@ def	generate_makefile(params: dict) -> str:
 # genmake {version}
 
 #Compiler and Linker
-CC			:= clang-9
+CC			:= clang
 ifeq ($(shell uname -s),Darwin)
 	CC		:= gcc
 endif
