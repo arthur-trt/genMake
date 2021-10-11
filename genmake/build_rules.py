@@ -94,7 +94,7 @@ def lib_inc(params: dict) -> str:
 	if params["library_mlx"] and params["compile_mlx"]:
 		lib_inc += " -L" + params["folder_mlx"] + " -lmlx"
 	if params["library"]:
-		lib_inc += params["library"]
+		lib_inc += " " + params["library"]
 
 	lib_inc += "\n"
 

@@ -20,6 +20,14 @@ from colorama.ansi import Fore, Style
 
 sources_file_path = "./sources.mk"
 
+def	obtain_language() -> str:
+	with open('Makefile', 'r') as file:
+		for line in file:
+			if "SRCEXT" in line:
+				srcext = line.split()
+				file.close()
+				return srcext[-1]
+
 def obtain_list_file(path, extension):
 	p = path.glob('*')
 	files = [x for x in p if x.is_file() and x.suffix == extension]
@@ -46,19 +54,19 @@ def write_file_list_bonus(source_file, files):
 		source_file.write("\t\t" + str(file) + "\n")
 	source_file.write("\n\n")
 
-def obtain_bonus(src_folder):
-	p = pathlib.Path(src_folder).glob('**/*_bonus.c')
+def obtain_bonus(src_folder, lang_ext):
+	p = pathlib.Path(src_folder).glob('**/*_bonus.' + lang_ext)
 	return (list(p))
 
-def build_source_file(source_file):
+def build_source_file(source_file, extension):
 	srcs_folder = obtain_src_folder()
 	dirs = obtain_list_dir(srcs_folder)
 	for dir in dirs:
-		files = obtain_list_file(dir, ".c")
+		files = obtain_list_file(dir, "." + extension)
 		if files:
 			write_comment(source_file, str(dir))
 			write_file_list(source_file, files)
-	bonus = obtain_bonus(srcs_folder)
+	bonus = obtain_bonus(srcs_folder, extension)
 	if bonus:
 		write_comment(source_file, "BONUS")
 		write_file_list_bonus(source_file, bonus)
@@ -113,8 +121,8 @@ def populate_sources():
 	List all .c files and create sources.mk
 	"""
 	source_file = create_source_file()
-
-	build_source_file(source_file)
+	source_extension = obtain_language()
+	build_source_file(source_file, source_extension)
 	max_lenght = obtain_max_lenght(source_file)
 	beautify_file(sources_file_path, max_lenght + 5)
 	source_file.close()

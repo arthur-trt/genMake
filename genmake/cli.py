@@ -24,6 +24,16 @@ def	input_bool(prompt: str) -> bool:
 		else:
 			continue
 
+def	input_lang(prompt: str) -> bool:
+	while True:
+		res = input(prompt)
+		if not res or res.lower() == "c":
+			return True
+		elif res.lower() == "cpp" or res.lower() == "c++":
+			return False
+		else:
+			continue
+
 def obtain_parameters() -> dict:
 	"""
 	Obtain parameters from the user
@@ -31,6 +41,7 @@ def obtain_parameters() -> dict:
 	params = dict()
 	print(Fore.CYAN + "MAKEFILE CONFIGURATION :" + Style.RESET_ALL)
 	print(Style.BRIGHT + "A few questions to configure your Makefile as well as possible!" + Style.RESET_ALL)
+	params["lang_c"] = input_lang("\tLangugage : [C/cpp] : ")
 	params["target"] = input("\tProgramm name : ")
 	params["bin_folder"] = input("\tBinary folder name : ")
 	params["src_folder"] = input("\tSource folder name : ")

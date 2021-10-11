@@ -22,6 +22,14 @@ def	generate_makefile(params: dict) -> str:
 	config.BUILDER["src_dir"] = params["src_folder"]
 	config.BUILDER["inc_dir"] = params["inc_folder"]
 	config.BUILDER["bin_dir"] = params["bin_folder"]
+	if params["lang_c"] == False:
+		config.BUILDER["src_file_ext"] = "cpp"
+		config.BUILDER["compil_mac"] = "g++"
+		config.BUILDER["compil_linux"] = "clang++"
+	else:
+		config.BUILDER["src_file_ext"] = "c"
+		config.BUILDER["compil_mac"] = "gcc"
+		config.BUILDER["compil_linux"] = "clang"
 	config.BUILDER["lib"] = build_rules.lib_inc(params)
 	config.BUILDER["all_rules"] = build_rules.all(params)
 	config.BUILDER["bonus_rules"] = build_rules.bonus(params)
@@ -36,62 +44,63 @@ def	generate_makefile(params: dict) -> str:
 # genmake {version}
 
 #Compiler and Linker
-CC			:= clang
+CC					:= {compil_linux}
 ifeq ($(shell uname -s),Darwin)
-	CC		:= gcc
+	CC				:= {compil_mac}
 endif
 
 #The Target Binary Program
-TARGET			:= {target}
+TARGET				:= {target}
 TARGET_BONUS		:= {target}-bonus
 
-BUILD			:= release
+BUILD				:= release
 
 include sources.mk
 
 #The Directories, Source, Includes, Objects, Binary and Resources
-SRCDIR			:= {src_dir}
-INCDIR			:= {inc_dir}
-BUILDDIR		:= obj
-TARGETDIR		:= {bin_dir}
-SRCEXT			:= c
-DEPEXT			:= d
-OBJEXT			:= o
+SRCDIR				:= {src_dir}
+INCDIR				:= {inc_dir}
+BUILDDIR			:= obj
+TARGETDIR			:= {bin_dir}
+SRCEXT				:= {src_file_ext}
+DEPEXT				:= d
+OBJEXT				:= o
 
-OBJECTS			:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
+OBJECTS				:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
 OBJECTS_BONUS		:= $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES_BONUS:.$(SRCEXT)=.$(OBJEXT)))
 
 #Flags, Libraries and Includes
 cflags.release		:= -Wall -Werror -Wextra
 cflags.valgrind		:= -Wall -Werror -Wextra -DDEBUG -ggdb
 cflags.debug		:= -Wall -Werror -Wextra -DDEBUG -ggdb -fsanitize=address -fno-omit-frame-pointer
-CFLAGS			:= $(cflags.$(BUILD))
+CFLAGS				:= $(cflags.$(BUILD))
+CPPFLAGS			:= $(cflags.$(BUILD))
 
-lib.release		:= {lib}
-lib.debug		:= $(lib.release) -fsanitize=address -fno-omit-frame-pointer
-LIB			:= $(lib.$(BUILD))
+lib.release			:= {lib}
+lib.debug			:= $(lib.release) -fsanitize=address -fno-omit-frame-pointer
+LIB					:= $(lib.$(BUILD))
 
-INC			:= -I$(INCDIR) -I/usr/local/include
-INCDEP			:= -I$(INCDIR)
+INC					:= -I$(INCDIR) -I/usr/local/include
+INCDEP				:= -I$(INCDIR)
 
 # Colors
-C_RESET			:= \\033[0m
-C_PENDING		:= \\033[0;36m
-C_SUCCESS		:= \\033[0;32m
+C_RESET				:= \\033[0m
+C_PENDING			:= \\033[0;36m
+C_SUCCESS			:= \\033[0;32m
 
 # Multi platforms
-ECHO			:= echo
+ECHO				:= echo
 
 # Escape sequences (ANSI/VT100)
-ES_ERASE		:= "\\033[1A\\033[2K\\033[1A"
-ERASE			:= $(ECHO) $(ES_ERASE)
+ES_ERASE			:= "\\033[1A\\033[2K\\033[1A"
+ERASE				:= $(ECHO) $(ES_ERASE)
 
 # hide STD/ERR and prevent Make from returning non-zero code
-HIDE_STD		:= > /dev/null
-HIDE_ERR		:= 2> /dev/null || true
+HIDE_STD			:= > /dev/null
+HIDE_ERR			:= 2> /dev/null || true
 
-GREP			:= grep --color=auto --exclude-dir=.git
-NORMINETTE		:= norminette `ls`
+GREP				:= grep --color=auto --exclude-dir=.git
+NORMINETTE			:= norminette `ls`
 
 # Default Make
 all: {all_rules}
@@ -101,6 +110,7 @@ all: {all_rules}
 
 # Bonus rule
 bonus: CFLAGS += -DBONUS
+bonus: CPPFLAGS += -DBONUS
 bonus: {bonus_rules}
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_SUCCESS)✅$(C_RESET)]"
@@ -111,6 +121,7 @@ re: fclean all
 
 # Clean only Objects
 clean:
+	@$(RM) -f *.d *.o
 {clean_rules}
 
 # Full Clean, Objects and Binaries
@@ -137,8 +148,8 @@ $(BUILDIR):
 $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(dir $@)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_PENDING)⏳$(C_RESET)]"
-	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
-	@$(CC) $(CFLAGS) $(INCDEP) -MM $(SRCDIR)/$*.$(SRCEXT) > $(BUILDDIR)/$*.$(DEPEXT)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INC) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $(INCDEP) -MM $(SRCDIR)/$*.$(SRCEXT) > $(BUILDDIR)/$*.$(DEPEXT)
 	@$(ERASE)
 	@$(ERASE)
 	@cp -f $(BUILDDIR)/$*.$(DEPEXT) $(BUILDDIR)/$*.$(DEPEXT).tmp
