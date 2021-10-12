@@ -73,7 +73,7 @@ def bonus(params: dict) -> str:
 	"""
 	Build rules for bonus with all lib
 	"""
-	all_rules = "directories"
+	all_rules = str()
 
 	if params["library_libft"]:
 		all_rules += " libft"
@@ -95,8 +95,6 @@ def lib_inc(params: dict) -> str:
 		lib_inc += " -L" + params["folder_mlx"] + " -lmlx"
 	if params["library"]:
 		lib_inc += " " + params["library"]
-
-	lib_inc += "\n"
 
 	return lib_inc
 

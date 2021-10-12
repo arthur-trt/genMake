@@ -77,6 +77,7 @@ CFLAGS				:= $(cflags.$(BUILD))
 CPPFLAGS			:= $(cflags.$(BUILD))
 
 lib.release			:= {lib}
+lib.valgrind		:= $(lib.release)
 lib.debug			:= $(lib.release) -fsanitize=address -fno-omit-frame-pointer
 LIB					:= $(lib.$(BUILD))
 
@@ -103,7 +104,7 @@ GREP				:= grep --color=auto --exclude-dir=.git
 NORMINETTE			:= norminette `ls`
 
 # Default Make
-all: {all_rules}
+all:{all_rules}
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_SUCCESS)✅$(C_RESET)]"
 	@$(ECHO) "$(C_SUCCESS)All done, compilation successful! 👌 $(C_RESET)"
@@ -111,7 +112,7 @@ all: {all_rules}
 # Bonus rule
 bonus: CFLAGS += -DBONUS
 bonus: CPPFLAGS += -DBONUS
-bonus: {bonus_rules}
+bonus:{bonus_rules}
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_SUCCESS)✅$(C_RESET)]"
 	@$(ECHO) "$(C_SUCCESS)All done, compilation successful with bonus! 👌 $(C_RESET)"
