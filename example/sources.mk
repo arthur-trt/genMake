@@ -10,8 +10,8 @@ SOURCES		+=                                       		\
 
 SOURCES		+=                                       		\
 		test/test1/file1.c                              	\
-		test/test1/file2.c                              	\
 		test/test1/file3.c                              	\
+		test/test1/file2.c                              	\
 
 
 ## TEST/TEST2 ##
@@ -24,8 +24,8 @@ SOURCES		+=                                       		\
 ## TEST/TEST2/TEST3 ##
 
 SOURCES		+=                                       		\
-		test/test2/test3/file6.c                        	\
 		test/test2/test3/file7.c                        	\
+		test/test2/test3/file6.c                        	\
 		test/test2/test3/superlongfilefortesting.c      	\
 
 
