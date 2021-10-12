@@ -60,7 +60,7 @@ If the command is not available even after installation, please check that `$HOM
 ```
 export PATH=$HOME/.local/bin:$PATH
 ```
-or on 42 iMac :
+or on 42 iMac MacOS :
 ```
 export PATH=$HOME/Library/Python/3.7/bin:$PATH
 ```
