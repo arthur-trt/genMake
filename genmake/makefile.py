@@ -24,12 +24,10 @@ def	generate_makefile(params: dict) -> str:
 	config.BUILDER["bin_dir"] = params["bin_folder"]
 	if params["lang_c"] == False:
 		config.BUILDER["src_file_ext"] = "cpp"
-		config.BUILDER["compil_mac"] = "g++"
-		config.BUILDER["compil_linux"] = "clang++"
+		config.BUILDER["compile_rule"] = "CXX"
 	else:
 		config.BUILDER["src_file_ext"] = "c"
-		config.BUILDER["compil_mac"] = "gcc"
-		config.BUILDER["compil_linux"] = "clang"
+		config.BUILDER["compile_rule"] = "CC"
 	config.BUILDER["lib"] = build_rules.lib_inc(params)
 	config.BUILDER["all_rules"] = build_rules.all(params)
 	config.BUILDER["bonus_rules"] = build_rules.bonus(params)
@@ -44,9 +42,11 @@ def	generate_makefile(params: dict) -> str:
 # genmake {version}
 
 #Compiler and Linker
-CC					:= {compil_linux}
+CC					:= clang
+CXX					:= c++
 ifeq ($(shell uname -s),Darwin)
-	CC				:= {compil_mac}
+	CC				:= gcc
+	CXX				:= g++
 endif
 
 #The Target Binary Program
@@ -74,7 +74,7 @@ cflags.release		:= -Wall -Werror -Wextra
 cflags.valgrind		:= -Wall -Werror -Wextra -DDEBUG -ggdb
 cflags.debug		:= -Wall -Werror -Wextra -DDEBUG -ggdb -fsanitize=address -fno-omit-frame-pointer
 CFLAGS				:= $(cflags.$(BUILD))
-CPPFLAGS			:= $(cflags.$(BUILD))
+CPPFLAGS			:= $(cflags.$(BUILD)) -std=c++98
 
 lib.release			:= {lib}
 lib.valgrind		:= $(lib.release)
@@ -135,12 +135,12 @@ fclean: clean
 # Link
 $(TARGETDIR)/$(TARGET): $(OBJECTS)
 	@mkdir -p $(TARGETDIR)
-	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
+	$({compile_rule}) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
 
 # Link Bonus
 $(TARGETDIR)/$(TARGET_BONUS): $(OBJECTS_BONUS)
 	@mkdir -p $(TARGETDIR)
-	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
+	$({compile_rule}) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
 
 $(BUILDIR):
 	@mkdir -p $@
@@ -149,8 +149,8 @@ $(BUILDIR):
 $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(dir $@)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_PENDING)⏳$(C_RESET)]"
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INC) -c -o $@ $<
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $(INCDEP) -MM $(SRCDIR)/$*.$(SRCEXT) > $(BUILDDIR)/$*.$(DEPEXT)
+	$({compile_rule}) $(CFLAGS) $(CPPFLAGS) $(INC) -c -o $@ $<
+	@$({compile_rule}) $(CFLAGS) $(CPPFLAGS) $(INCDEP) -MM $(SRCDIR)/$*.$(SRCEXT) > $(BUILDDIR)/$*.$(DEPEXT)
 	@$(ERASE)
 	@$(ERASE)
 	@cp -f $(BUILDDIR)/$*.$(DEPEXT) $(BUILDDIR)/$*.$(DEPEXT).tmp
