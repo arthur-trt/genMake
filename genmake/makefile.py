@@ -96,10 +96,6 @@ ECHO				:= echo
 ES_ERASE			:= "\\033[1A\\033[2K\\033[1A"
 ERASE				:= $(ECHO) $(ES_ERASE)
 
-# hide STD/ERR and prevent Make from returning non-zero code
-HIDE_STD			:= > /dev/null
-HIDE_ERR			:= 2> /dev/null || true
-
 GREP				:= grep --color=auto --exclude-dir=.git
 NORMINETTE			:= norminette `ls`
 
