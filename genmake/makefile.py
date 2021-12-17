@@ -39,7 +39,7 @@ def	generate_makefile(params: dict) -> str:
 	content = '''\
 # Generated with GenMake
 # Arthur-TRT - https://github.com/arthur-trt/genMake
-# genmake {version}
+# genmake v{version}
 
 #Compiler and Linker
 CC					:= clang
