@@ -6,7 +6,7 @@
 #    By: atrouill <atrouill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 10:01:25 by atrouill          #+#    #+#              #
-#    Updated: 2021/09/15 08:47:42 by atrouill         ###   ########.fr        #
+#    Updated: 2021/12/17 15:24:06 by atrouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,18 @@ import os.path
 def	get_last_version() -> dict:
 	origin_infos = dict()
 	headers = {"Accept": "application/vnd.github.v3+json"}
-	url = "https://api.github.com/repos/arthur-trt/genmake/releases"
-	r = requests.get(url, headers=headers)
-	r = r.json()
-	origin_infos["version"] = r[0]['tag_name']
-	origin_infos["changelog"] = r[0]['body']
-	return (origin_infos)
+	url = "https://api.github.com/repos/arthur-trt/genmake/releases5"
+	try:
+		r = requests.get(url, headers=headers)
+	except:
+		print("Error while trying to get the last version")
+		return (None)
+	if (r.status_code == 200):
+		r = r.json()
+		origin_infos["version"] = r[0]['tag_name']
+		origin_infos["changelog"] = r[0]['body']
+		return (origin_infos)
+	return (None)
 
 def obtain_generator_version() -> str:
 	path = pathlib.Path("./Makefile")
@@ -40,6 +46,9 @@ def obtain_generator_version() -> str:
 def	check_update():
 	origin = get_last_version()
 	gen = obtain_generator_version()
+
+	if origin == None or gen == None:
+		return (False)
 
 	if (origin["version"] != config.VERSION):
 		print(Fore.YELLOW, end='')
