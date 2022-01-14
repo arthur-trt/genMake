@@ -6,7 +6,7 @@
 #    By: atrouill <atrouill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 10:01:25 by atrouill          #+#    #+#              #
-#    Updated: 2021/12/17 15:24:06 by atrouill         ###   ########.fr        #
+#    Updated: 2022/01/14 15:05:14 by atrouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ import os.path
 def	get_last_version() -> dict:
 	origin_infos = dict()
 	headers = {"Accept": "application/vnd.github.v3+json"}
-	url = "https://api.github.com/repos/arthur-trt/genmake/releases5"
+	url = "https://api.github.com/repos/arthur-trt/genmake/releases"
 	try:
 		r = requests.get(url, headers=headers)
 	except:
