@@ -1,5 +1,9 @@
 # genMake
 
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/0-percent-optimized.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/contains-technical-debt.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/powered-by-overtime.svg)](https://forthebadge.com)
+
+[![PyPI download month](https://img.shields.io/pypi/dm/genmake.svg)](https://pypi.python.org/pypi/genmake/) [![PyPi version](https://badgen.net/pypi/v/genmake/)](https://pypi.com/project/genmake)
+
 Disclaimer:
 
 This is my first real Python project. I am not a Python developer, and the code is certainly not the cleanest. This project was developed according to my needs, and if you need more features I would be happy to integrate them if possible. I think it may be useful to others so I'll share it but without any guarantee.
@@ -79,3 +83,10 @@ pip3 install --user --upgrade genmake
 - The code is not clean
 - Many parameters are hard-coded, it would be necessary to create a configuration file.
 - You will tell me :D
+
+### Thanks to :
+- [Tart3mpion](https://github.com/Tart3mpion) for special support
+- [tp0ns](https://github.com/tp0ns) for joy and amelioration idea
+- [clbouche](https://github.com/clbouche) for joy and special skill in communication
+- [Ccommiss](https://github.com/Ccommiss) for nothing but i appreciate you
+- [EliasAachach](https://github.com/EliasAachach) special thanks to you best bro ❤️
