@@ -25,9 +25,11 @@ def	generate_makefile(params: dict) -> str:
 	if params["lang_c"] == False:
 		config.BUILDER["src_file_ext"] = "cpp"
 		config.BUILDER["compile_rule"] = "CXX"
+		config.BUILDER["flags"] = "CPPFLAGS"
 	else:
 		config.BUILDER["src_file_ext"] = "c"
 		config.BUILDER["compile_rule"] = "CC"
+		config.BUILDER["flags"] = "CFLAGS"
 	config.BUILDER["lib"] = build_rules.lib_inc(params)
 	config.BUILDER["all_rules"] = build_rules.all(params)
 	config.BUILDER["bonus_rules"] = build_rules.bonus(params)
@@ -106,8 +108,7 @@ all:{all_rules}
 	@$(ECHO) "$(C_SUCCESS)All done, compilation successful! 👌 $(C_RESET)"
 
 # Bonus rule
-bonus: CFLAGS += -DBONUS
-bonus: CPPFLAGS += -DBONUS
+bonus: {flags} += -DBONUS
 bonus:{bonus_rules}
 	@$(ERASE)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_SUCCESS)✅$(C_RESET)]"
@@ -145,8 +146,8 @@ $(BUILDIR):
 $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(dir $@)
 	@$(ECHO) "$(TARGET)\\t\\t[$(C_PENDING)⏳$(C_RESET)]"
-	$({compile_rule}) $(CFLAGS) $(CPPFLAGS) $(INC) -c -o $@ $<
-	@$({compile_rule}) $(CFLAGS) $(CPPFLAGS) $(INCDEP) -MM $(SRCDIR)/$*.$(SRCEXT) > $(BUILDDIR)/$*.$(DEPEXT)
+	$({compile_rule}) $({flags}) $(INC) -c -o $@ $<
+	@$({compile_rule}) $({flags}) $(INCDEP) -MM $(SRCDIR)/$*.$(SRCEXT) > $(BUILDDIR)/$*.$(DEPEXT)
 	@$(ERASE)
 	@$(ERASE)
 	@cp -f $(BUILDDIR)/$*.$(DEPEXT) $(BUILDDIR)/$*.$(DEPEXT).tmp
