@@ -77,7 +77,7 @@ def obtain_max_lenght(source_file):
 	source_file.seek(0, os.SEEK_SET)
 	for line in source_file:
 		if(len(line) > max_length):
-	  	  max_length = len(line)
+			max_length = len(line)
 	return max_length
 
 def beautify_file(sources_file_path, len: int):
