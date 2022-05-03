@@ -12,6 +12,7 @@
 #                                                                              #
 # **************************************************************************** #
 
+from importlib.resources import path
 from pathlib import Path
 from colorama import Fore, Style
 
@@ -31,7 +32,13 @@ def create_makefile(params: dict):
 		file.close()
 	print(Fore.GREEN + "✅ Makefile created!" + Style.RESET_ALL)
 
-
+def	check_makefile_before_parse(path: path) -> bool:
+	with open(path, 'r') as f:
+		line = f.readline()
+		f.close()
+		if "Generated with GenMake" not in line:
+			return (False)
+		return (True)
 
 def main():
 	args = parse_args()
@@ -40,5 +47,8 @@ def main():
 	if (args.remake == True) or not p.exists():
 		params = obtain_parameters()
 		create_makefile(params)
-	populate_sources()
+	if (check_makefile_before_parse(p)):
+		populate_sources()
+	else:
+		print(Fore.RED + "Your Makefile does not seem to have been generated with genMake.\n(make a backup just in case before deleting it)" + Style.RESET_ALL)
 
